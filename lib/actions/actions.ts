@@ -1,6 +1,6 @@
 'use server'
 
-import dbConnect from '@/lib/mongodb';
+import { dbConnect } from '@/lib/mongodb';
 import { Product } from '@/lib/models/Product.model';
 import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
