@@ -1,52 +1,3 @@
-// import Link from 'next/link';
-// import { getProducts, deleteProduct } from '@/lib/actions/actions';
-// import { Product } from '@/lib/types';
-// import { ProductForm } from '../components/ProductForm';
-// import { Button } from '@/components/ui/button';
-
-// export default async function AdminPage() {
-//   const products = (await getProducts() as unknown) as Product[];
-
-//   return (
-//     <div className="container mx-auto p-4">
-//       <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
-//       <div className="mb-8">
-//         <h2 className="text-xl font-semibold mb-2">Add New Product</h2>
-//         <ProductForm />
-//       </div>
-//       <div>
-//         <h2 className="text-xl font-semibold mb-2">Product List</h2>
-//         {products.length === 0 ? (
-//           <p>No products found.</p>
-//         ) : (
-//           <div className="space-y-4">
-//             {products.map((product: Product) => (
-//               <div key={product._id} className="border p-4 rounded">
-//                 <h3 className="font-bold">{product.title}</h3>
-//                 <p>Category: {product.category}</p>
-//                 <p>Price: ${product.price.toFixed(2)}</p>
-//                 <div className="flex flex-wrap gap-2 my-2">
-                  
-//                     <img src={product.primaryImage} alt="primaryImage" className="w-24 h-24 object-cover" />
-//                     <img src={product.secondaryImage1} alt="primaryImage" className="w-24 h-24 object-cover" />
-//                     <img src={product.secondaryImage2} alt="primaryImage" className="w-24 h-24 object-cover" />
-//                 </div>
-//                 <div className="flex gap-2 mt-2">
-//                   <Link href={`/admin/edit/${product._id}`}>
-//                     <Button variant="outline">Edit</Button>
-//                   </Link>
-//                   <form action={deleteProduct.bind(null, product._id)}>
-//                     <Button variant="destructive" type="submit">Delete</Button>
-//                   </form>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
 
 import Link from 'next/link';
 import { getProducts, deleteProduct } from '@/lib/actions/actions';
@@ -56,14 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Package, PenSquare, Trash2 } from 'lucide-react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+
 
 export default async function AdminPage() {
   const products = (await getProducts() as unknown) as Product[];

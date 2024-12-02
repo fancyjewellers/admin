@@ -4,7 +4,6 @@ import dbConnect from '@/lib/mongodb';
 import { Product } from '@/lib/models/Product.model';
 import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
-import { Product as ProductType } from "@/lib/types";
 
 export async function addProduct(formData: FormData) {
     await dbConnect();

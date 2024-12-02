@@ -338,7 +338,6 @@ export function ProductForm({ product }: ProductFormProps) {
             <div className="space-y-2">
             <Label htmlFor="price">Weight</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2">gram</span>
               <Input
                 id="Weight"
                 name="Weight"
@@ -354,7 +353,7 @@ export function ProductForm({ product }: ProductFormProps) {
           <div className="space-y-2">
             <Label htmlFor="price">Price</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2">$</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2">₹</span>
               <Input
                 id="price"
                 name="price"
