@@ -5,11 +5,9 @@ type MongooseCache = {
   promise: Promise<typeof mongoose> | null;
 }
 
-// Use interface instead of var for global augmentation
+// Extend the global namespace
 declare global {
-  interface Global {
-    mongoose: MongooseCache | undefined;
-  }
+  var mongoose: MongooseCache | undefined;
 }
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -18,10 +16,11 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-const cached: MongooseCache = (global as any).mongoose || { conn: null, promise: null };
+// Use the global variable directly since we've properly typed it
+const cached: MongooseCache = global.mongoose || { conn: null, promise: null };
 
-if (!(global as any).mongoose) {
-  (global as any).mongoose = cached;
+if (!global.mongoose) {
+  global.mongoose = cached;
 }
 
 async function dbConnect() {
