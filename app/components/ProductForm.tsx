@@ -285,7 +285,7 @@ export function ProductForm({ product }: ProductFormProps) {
                 defaultValue={product?.category}
                 required >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Theme" />
+                  <SelectValue placeholder="Necklace" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="necklace">Necklace</SelectItem>
@@ -295,17 +295,6 @@ export function ProductForm({ product }: ProductFormProps) {
                   <SelectItem value="pendant">Pendant</SelectItem>
                 </SelectContent>
               </Select>
-
-              
-
-              {/* <Input 
-                id="category" 
-                name="category" 
-                defaultValue={product?.category} 
-                placeholder="Enter category"
-                className="w-full"
-                required 
-              /> */}
             </div>
             <div className="space-y-2">
               <Label htmlFor="gender">For</Label>
@@ -314,7 +303,7 @@ export function ProductForm({ product }: ProductFormProps) {
                 defaultValue={product?.gender}
                 required >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Theme" />
+                  <SelectValue placeholder="Female" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="female">Female</SelectItem>
@@ -339,8 +328,8 @@ export function ProductForm({ product }: ProductFormProps) {
             <Label htmlFor="price">Weight</Label>
             <div className="relative">
               <Input
-                id="Weight"
-                name="Weight"
+                id="weight"
+                name="weight"
                 type="number"
                 step="0.01"
                 defaultValue={product?.weight}
