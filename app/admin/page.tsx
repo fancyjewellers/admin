@@ -70,7 +70,7 @@ export default async function AdminPage() {
                               <p className="text-sm text-gray-500">{product.category}</p>
                               <p className="text-sm text-gray-500">{product.weight}</p>
                               <p className="text-sm text-gray-500">{product.quality}</p>
-                              <p className="text-sm text-gray-500">{product.gender}</p>
+                              
                             </div>
                             <p className="font-mono font-semibold">
                               {product.price.toFixed(2)}

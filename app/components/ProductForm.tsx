@@ -151,7 +151,7 @@ interface ProductFormProps {
     primaryImage?: string;
     secondaryImage1?: string;
     secondaryImage2?: string;
-    gender:string;
+    
     weight:number;
     quality:string;
   };
@@ -296,23 +296,7 @@ export function ProductForm({ product }: ProductFormProps) {
                 </SelectContent>
               </Select>
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="gender">For</Label>
-              <Select
-                name="gender"
-                defaultValue={product?.gender}
-                required >
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Female" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="female">Female</SelectItem>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="child">Child</SelectItem>
-                  
-                </SelectContent>
-              </Select>
-            </div>
+            
             <div className="space-y-2">
               <Label htmlFor="title">Product Quality</Label>
               <Input

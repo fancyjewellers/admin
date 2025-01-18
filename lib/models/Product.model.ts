@@ -27,10 +27,7 @@ const productSchema = new mongoose.Schema(
     secondaryImage2: { 
       type: String 
     },
-    gender:{
-      type:String,
-      required: true 
-    },
+    
     weight:{
       type:Number,
       required: true 
