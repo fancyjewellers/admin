@@ -3,7 +3,7 @@ import { Rate} from '@/lib/models/Rate.model';
 
 
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     await dbConnect();
     const products = await Rate.find().lean();
