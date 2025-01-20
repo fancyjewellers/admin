@@ -6,7 +6,6 @@ export interface Product {
   primaryImage: string;
   secondaryImage1: string;
   secondaryImage2: string;
-  gender:string;
   weight:number;
   quality:string;
 } 
