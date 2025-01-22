@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { AlertCircle, Loader2, RefreshCcw, TrendingUp } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
 const RateUpdate = () => {
   const [goldPrice, setGoldPrice] = useState<number>(0);
@@ -129,7 +130,7 @@ const RateUpdate = () => {
 
   useEffect(() => {
     let mounted = true;
-    let intervalId: NodeJS.Timeout;
+    // let intervalId: NodeJS.Timeout;
 
     const updateRates = async () => {
       if (mounted) {
@@ -144,7 +145,7 @@ const RateUpdate = () => {
     const intervalTime = Math.min(10000 * (retryCount + 1), 60000); // Exponential backoff up to 1 minute
 
     updateRates();
-    intervalId = setInterval(updateRates, intervalTime);
+    const intervalId = setInterval(updateRates, intervalTime);
 
     return () => {
       mounted = false;
@@ -192,7 +193,7 @@ const RateUpdate = () => {
             <label htmlFor="x-value" className="block text-sm font-medium text-gray-700 mb-1">
               Multiplier (X)
             </label>
-            <input
+            {/* <input
               id="x-value"
               type="number"
               value={x}
@@ -201,7 +202,16 @@ const RateUpdate = () => {
               placeholder="Enter multiplier value"
               min="0.01"
               step="0.01"
-            />
+            /> */}
+            <Input
+                id="x-value"
+                type="number"
+                value={x}
+                onChange={(e) => handleXChange(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-yellow-500 focus:border-yellow-500"
+                placeholder="Enter multiplier value"
+                required
+              />
           </div>
 
           {error && (
