@@ -4,6 +4,7 @@ import { dbConnect } from '@/lib/mongodb';
 import { Product } from '@/lib/models/Product.model';
 import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
+import { Rate } from '../models/Rate.model';
 
 export async function addProduct(formData: FormData) {
     await dbConnect();
@@ -92,4 +93,20 @@ export async function addProduct(formData: FormData) {
   }
   
 
+  export async function updateUser(_id: string, x: number) {
+    try {
+      await dbConnect();
   
+      const updatedUser = await Rate.findOneAndUpdate(
+        { _id },
+        { $set: { x } },
+        { new: true }
+      );
+  
+      if (!updatedUser) throw new Error("User update failed");
+      
+      return JSON.parse(JSON.stringify(updatedUser));
+    } catch (error) {
+      console.log(error);
+    }
+  }

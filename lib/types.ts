@@ -7,5 +7,5 @@ export interface Product {
   secondaryImage1: string;
   secondaryImage2: string;
   weight:number;
-  quality:string;
+  quality:number;
 } 

@@ -1,5 +1,3 @@
-
-
 'use client'
 
 import { useState } from 'react';
@@ -31,7 +29,7 @@ interface ProductFormProps {
     secondaryImage2?: string;
     
     weight:number;
-    quality:string;
+    quality:number;
   };
 }
 
@@ -53,6 +51,10 @@ export function ProductForm({ product }: ProductFormProps) {
       await updateProduct(product._id, formData);
     } else {
       await addProduct(formData);
+      setPrimaryImage(null);
+      setSecondaryImage1(null);
+      setSecondaryImage2(null);
+      e.currentTarget.reset();
     }
 
     router.push('/admin');
@@ -175,17 +177,27 @@ export function ProductForm({ product }: ProductFormProps) {
               </Select>
             </div>
             
+            
+
             <div className="space-y-2">
-              <Label htmlFor="title">Product Quality</Label>
-              <Input
-                id="quality"
+              <Label htmlFor="quality">Product Quality</Label>
+              <Select
                 name="quality"
-                defaultValue={product?.quality}
-                placeholder="Enter product title"
-                className="w-full"
-                required
-              />
+                defaultValue={product?.quality?.toString()}
+                required >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder={0.9275} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0.9275">22K</SelectItem>
+                  <SelectItem value="0.8475">20K</SelectItem>
+                  <SelectItem value="0.7675">18K</SelectItem>
+                  {/* <SelectItem value="bracelet">16K</SelectItem>
+                  <SelectItem value="pendant">14K</SelectItem> */}
+                </SelectContent>
+              </Select>
             </div>
+
             <div className="space-y-2">
             <Label htmlFor="price">Weight</Label>
             <div className="relative">

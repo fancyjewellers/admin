@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const rateSchema = new mongoose.Schema(
   {
     x: { 
-      type: String, 
+      type: Number, 
       required: true, 
       trim: true 
     },
