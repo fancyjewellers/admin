@@ -12,10 +12,12 @@ export async function GET(request: Request) {
     
     
     const category = searchParams.get('category');
+    const subcategory = searchParams.get('subcategory');
     
 
     
     if (category) filters.category = category;
+    if (subcategory) filters.subcategory = subcategory;
     
 
     const products = await Product.find(filters).lean();

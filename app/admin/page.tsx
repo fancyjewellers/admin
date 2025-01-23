@@ -67,13 +67,14 @@ export default async function AdminPage() {
                           <div className="flex items-start justify-between">
                             <div>
                               <h3 className="font-semibold truncate">{product.title}</h3>
-                              <p className="text-sm text-gray-500">{product.category}</p>
-                              <p className="text-sm text-gray-500">{product.weight}</p>
-                              <p className="text-sm text-gray-500">{product.quality}</p>
+                              <p className="text-sm text-gray-500">category:{product.category}</p>
+                              <p className="text-sm text-gray-500">weight:{product.weight}gram</p>
+                              <p className="text-sm text-gray-500">quality:{product.quality}</p>
+                              <p className="text-sm text-gray-500">discount:{product.discount}</p>
                               
                             </div>
-                            <p className="font-mono font-semibold">
-                              {product.price.toFixed(2)}
+                            <p className="text-sm text-gray-500">
+                              Making charges(%) {product.price}
                             </p>
                           </div>
                           
