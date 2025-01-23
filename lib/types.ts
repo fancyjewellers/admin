@@ -8,4 +8,5 @@ export interface Product {
   secondaryImage2: string;
   weight:number;
   quality:number;
+  discount:number;
 } 
