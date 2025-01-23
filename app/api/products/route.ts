@@ -8,16 +8,16 @@ export async function GET(request: Request) {
     await dbConnect();
     
     const { searchParams } = new URL(request.url);
-    const filters: Record<string, string> = {};
+    const filters: Record<string, string | number> = {};
     
     
     const category = searchParams.get('category');
-    const quality = searchParams.get('subcategory');
+    const quality = searchParams.get('quality');
     
 
     
     if (category) filters.category = category;
-    if (quality) filters.subcategory = quality;
+    if (quality) filters.quality = Number(quality);
     
 
     const products = await Product.find(filters).lean();
