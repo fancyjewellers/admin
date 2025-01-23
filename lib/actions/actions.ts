@@ -15,6 +15,7 @@ export async function addProduct(formData: FormData) {
     const gender = parseFloat(formData.get('gender') as string);
     const weight = parseFloat(formData.get('weight') as string);
     const quality = parseFloat(formData.get('quality') as string);
+    const discount = parseFloat(formData.get('discount') as string);
     
     
   
@@ -37,6 +38,7 @@ export async function addProduct(formData: FormData) {
       gender,
       weight,
       quality,
+      discount,
     });
   
    
