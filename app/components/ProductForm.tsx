@@ -27,9 +27,9 @@ interface ProductFormProps {
     primaryImage?: string;
     secondaryImage1?: string;
     secondaryImage2?: string;
-    
     weight:number;
     quality:number;
+    discount:number;
   };
 }
 
@@ -186,7 +186,7 @@ export function ProductForm({ product }: ProductFormProps) {
                 defaultValue={product?.quality?.toString()}
                 required >
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder={0.9275} />
+                  <SelectValue placeholder='22k' />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="0.9275">22K</SelectItem>
@@ -214,9 +214,9 @@ export function ProductForm({ product }: ProductFormProps) {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="price">Price</Label>
+            <Label htmlFor="price">Making Charges in %</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2">₹</span>
+              <span className="absolute left-3 top-1/2 -translate-y-1/2">%</span>
               <Input
                 id="price"
                 name="price"
@@ -225,6 +225,22 @@ export function ProductForm({ product }: ProductFormProps) {
                 defaultValue={product?.price}
                 className="pl-8"
                 placeholder="0.00"
+                required
+              />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="discount">Making Charge Discount in %</Label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2">%</span>
+              <Input
+                id="discount"
+                name="discount"
+                type="number"
+                step="0.01"
+                defaultValue={product?.discount}
+                className="pl-8"
+                placeholder="10%"
                 required
               />
             </div>
