@@ -205,7 +205,7 @@ export function ProductForm({ product }: ProductFormProps) {
                 id="weight"
                 name="weight"
                 type="number"
-                step="0.01"
+                step="0.001"
                 defaultValue={product?.weight}
                 className="pl-8"
                 placeholder="0.00"

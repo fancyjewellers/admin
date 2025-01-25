@@ -4,7 +4,13 @@ import { dbConnect } from '@/lib/mongodb';
 import { Product } from '@/lib/models/Product.model';
 import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
-import { Rate } from '../models/Rate.model';
+import { Rate as RateModel } from '../models/Rate.model';
+
+interface Rate {
+  _id: string;
+  x: number;
+  __v: number;
+}
 
 export async function addProduct(formData: FormData) {
     await dbConnect();
@@ -95,20 +101,35 @@ export async function addProduct(formData: FormData) {
   }
   
 
-  export async function updateUser(_id: string, x: number) {
+  export async function getRate() {
+    try {
+      await dbConnect();
+      
+      const rates = await RateModel.find().lean();
+      return rates;
+      
+    } catch (error) {
+      console.error('API Error:', error);
+      return [];
+    }
+  }
+  
+  export async function updateX(_id: string, x: number) {
     try {
       await dbConnect();
   
-      const updatedUser = await Rate.findOneAndUpdate(
+      const updatedUser = await RateModel.findOneAndUpdate(
         { _id },
         { $set: { x } },
         { new: true }
       );
   
-      if (!updatedUser) throw new Error("User update failed");
-      
-      return JSON.parse(JSON.stringify(updatedUser));
+      return {
+        _id: updatedUser?._id?.toString() || '',
+        x: updatedUser?.x || x
+      };
     } catch (error) {
-      console.log(error);
+      console.error('Update Error:', error);
+      return { _id: '', x };
     }
   }

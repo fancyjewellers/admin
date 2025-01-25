@@ -96,7 +96,7 @@ export default async function AdminPage() {
                           </div>
 
                           <div className="flex gap-2 pt-2">
-                            <Link href={`/admin/edit/${product._id}`} className="flex-1">
+                            {/* <Link href={`/admin/edit/${product._id}`} className="flex-1">
                               <Button
                                 variant="outline"
                                 className="w-full flex items-center gap-2"
@@ -104,7 +104,7 @@ export default async function AdminPage() {
                                 <PenSquare className="w-4 h-4" />
                                 Edit
                               </Button>
-                            </Link>
+                            </Link> */}
                             <form action={deleteProduct.bind(null, product._id)} className="flex-1">
                               <Button
                                 variant="destructive"
