@@ -1,37 +1,4 @@
-// "use client"
-// import { getRate, updateX } from '@/lib/actions/actions';
 
-// import React, { useEffect, useState } from 'react'
-
-// const RateUpdate = () => {
-//   const [prevx,setPrevX]=useState<number>()
-//   const [newx,setNewX]=useState<string|number>()
-//   const [id,setId]=useState<any>()
-//   useEffect(()=>{
-//     const fatafatch=async()=>{
-//       const xvalue=await getRate()
-//       setPrevX(xvalue[0].x)
-//       setId(xvalue[0]._id)
-//     }
-//     fatafatch()
-//   },[])
-//   const handleSubmit=async(id:any,x:number)=>{
-//     const result=await updateX(id,x);
-//     if (result) {
-//       setNewX(0);
-//     }
-//   }
-//   return (
-//     <div>
-//       <p>present X is :{prevx}</p>
-//     <h3>your new X</h3>
-//       <input type='any' onChange={(e)=>{setNewX(e.target.value)}} value={newx} /> 
-//       <button onClick={() => handleSubmit(id, Number(newx))} >Update</button>
-//     </div>
-//   )
-// }
-
-// export default RateUpdate
 "use client"
 import React, { useEffect, useState } from 'react'
 import { getRate, updateX } from '@/lib/actions/actions';
@@ -43,7 +10,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
 const RateUpdate = () => {
   const [prevx, setPrevX] = useState<number>(0);
   const [newx, setNewX] = useState<string>('');
-  const [id, setId] = useState<any>();
+  const [id, setId] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
@@ -55,7 +22,7 @@ const RateUpdate = () => {
         const xvalue = await getRate();
         if (xvalue && xvalue.length > 0) {
           setPrevX(xvalue[0].x);
-          setId(xvalue[0]._id);
+          setId(String(xvalue[0]._id));
         } else {
           setError('No rate data found');
         }
