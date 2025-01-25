@@ -21,7 +21,8 @@ export async function GET(request: Request) {
     
 
     const products = await Product.find(filters).lean();
-    return Response.json(products);
+    const sortProducts=products.sort((a, b) => new Date(b.updatedAt).valueOf() - new Date(a.updatedAt).valueOf());
+    return Response.json(sortProducts);
 
   } catch (error) {
     console.error('API Error:', error);
