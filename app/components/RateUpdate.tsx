@@ -43,7 +43,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
 const RateUpdate = () => {
   const [prevx, setPrevX] = useState<number>(0);
   const [newx, setNewX] = useState<string>('');
-  const [id, setId] = useState<any>('');
+  const [id, setId] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
@@ -61,6 +61,7 @@ const RateUpdate = () => {
         }
       } catch (err) {
         setError('Failed to fetch current rate');
+        console.log(err)
       } finally {
         setIsLoading(false);
       }
@@ -87,6 +88,7 @@ const RateUpdate = () => {
       }
     } catch (err) {
       setError('Failed to update rate');
+      console.log(err)
     } finally {
       setIsLoading(false);
     }

@@ -1,12 +1,12 @@
 
-import Link from 'next/link';
+
 import { getProducts, deleteProduct } from '@/lib/actions/actions';
 import { Product } from '@/lib/types';
 import { ProductForm } from '../components/ProductForm';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Package, PenSquare, Trash2 } from 'lucide-react';
+import { Plus, Package, Trash2 } from 'lucide-react';
 
 
 export default async function AdminPage() {

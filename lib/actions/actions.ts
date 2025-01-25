@@ -6,11 +6,6 @@ import { uploadImage } from '@/lib/cloudinary';
 import { revalidatePath } from 'next/cache';
 import { Rate as RateModel } from '../models/Rate.model';
 
-interface Rate {
-  _id: string;
-  x: number;
-  __v: number;
-}
 
 export async function addProduct(formData: FormData) {
     await dbConnect();
