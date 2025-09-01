@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { uploadToCloudinary } from '@/lib/cloudinary';
 
 
 interface ProductFormProps {
@@ -34,6 +35,33 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ product }: ProductFormProps) {
+  const [images, setImages] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+  const [imgfile, setImgFiles] = useState<File[]>([]);
+  const [cloudinaryUrls, setCloudinaryUrls] = useState<string[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const handleImageUpload = async (newImgFiles: File[]) => {
+    const filesToUpload = newImgFiles.filter(
+      newImgFile => !imgfile.some(
+        existingFile => 
+          existingFile.name === newImgFile.name && 
+          existingFile.size === newImgFile.size
+      )
+    );
+
+    if (filesToUpload.length === 0) return;
+
+    try {
+      const urls = await Promise.all(
+        filesToUpload.map(file => uploadToCloudinary(file))
+      );
+      setImages(prev => [...prev, ...urls]);
+      setImgFiles(prev => [...prev, ...filesToUpload]);
+    } catch (error) {
+      console.error('Upload failed', error);
+    }
+  };
   const [primaryImage, setPrimaryImage] = useState<File | null>(null);
   const [secondaryImage1, setSecondaryImage1] = useState<File | null>(null);
   const [secondaryImage2, setSecondaryImage2] = useState<File | null>(null);
@@ -256,26 +284,35 @@ export function ProductForm({ product }: ProductFormProps) {
             <h3 className="text-lg font-medium">Product Images</h3>
             <div className="grid gap-6 md:grid-cols-3">
               <ImageUpload
+                id="product-images"
+                label="Product Images"
+                files={imgfile}
+                setFiles={handleImageUpload}
+                
+              />
+
+              
+              {/* <ImageUpload
                 id="primaryImage"
                 label="Primary Image"
                 file={primaryImage}
                 setFile={setPrimaryImage}
                 existingUrl={product?.primaryImage}
-              />
-              <ImageUpload
+              /> */}
+              {/* <ImageUpload
                 id="secondaryImage1"
                 label="Secondary Image 1"
                 file={secondaryImage1}
                 setFile={setSecondaryImage1}
                 existingUrl={product?.secondaryImage1}
-              />
-              <ImageUpload
+              /> */}
+              {/* <ImageUpload
                 id="secondaryImage2"
                 label="Secondary Image 2"
                 file={secondaryImage2}
                 setFile={setSecondaryImage2}
                 existingUrl={product?.secondaryImage2}
-              />
+              /> */}
             </div>
           </div>
 

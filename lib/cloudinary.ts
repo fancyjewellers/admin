@@ -1,3 +1,4 @@
+"use server"
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({
@@ -6,21 +7,20 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function uploadImage(file: File): Promise<string> {
-  const arrayBuffer = await file.arrayBuffer();
-  const buffer = Buffer.from(arrayBuffer);
+export async function uploadToCloudinary(file: File): Promise<string> {
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
 
   return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload_stream(
+    const uploadStream = cloudinary.uploader.upload_stream(
       { resource_type: 'auto' },
       (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result!.secure_url);
-        }
+        if (error) return reject(error);
+        resolve(result!.secure_url);
       }
-    ).end(buffer);
+    );
+
+    uploadStream.end(buffer);
   });
 }
 
