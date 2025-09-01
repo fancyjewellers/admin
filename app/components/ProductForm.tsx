@@ -35,12 +35,12 @@ interface ProductFormProps {
 }
 
 export function ProductForm({ product }: ProductFormProps) {
-  const [images, setImages] = useState<string[]>([]);
-  const [files, setFiles] = useState<File[]>([]);
+  // const [images, setImages] = useState<string[]>([]);
+  // const [files, setFiles] = useState<File[]>([]);
   const [imgfile, setImgFiles] = useState<File[]>([]);
-  const [cloudinaryUrls, setCloudinaryUrls] = useState<string[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  // const [cloudinaryUrls, setCloudinaryUrls] = useState<string[]>([]);
+  // const [isSubmitting, setIsSubmitting] = useState(false);
+  // const [showSuccess, setShowSuccess] = useState(false);
   const handleImageUpload = async (newImgFiles: File[]) => {
     const filesToUpload = newImgFiles.filter(
       newImgFile => !imgfile.some(
@@ -56,7 +56,7 @@ export function ProductForm({ product }: ProductFormProps) {
       const urls = await Promise.all(
         filesToUpload.map(file => uploadToCloudinary(file))
       );
-      setImages(prev => [...prev, ...urls]);
+      // setImages(prev => [...prev, ...urls]);
       setImgFiles(prev => [...prev, ...filesToUpload]);
     } catch (error) {
       console.error('Upload failed', error);
@@ -283,13 +283,13 @@ export function ProductForm({ product }: ProductFormProps) {
           <div className="space-y-4">
             <h3 className="text-lg font-medium">Product Images</h3>
             <div className="grid gap-6 md:grid-cols-3">
-              <ImageUpload
+              {/* <ImageUpload
                 id="product-images"
                 label="Product Images"
                 files={imgfile}
                 setFiles={handleImageUpload}
                 
-              />
+              /> */}
 
               
               {/* <ImageUpload
