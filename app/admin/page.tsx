@@ -2,7 +2,7 @@
 
 import { getProducts, deleteProduct } from '@/lib/actions/actions';
 import { Product } from '@/lib/types';
-import { ProductForm } from '../components/ProductForm';
+// import { ProductForm } from '../components/ProductForm';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -36,7 +36,7 @@ export default async function AdminPage() {
         </TabsList>
 
         <TabsContent value="add" className="space-y-4">
-          <ProductForm />
+          {/* <ProductForm /> */}
         </TabsContent>
 
         <TabsContent value="products">
