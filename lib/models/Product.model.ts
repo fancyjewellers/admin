@@ -20,14 +20,7 @@ const productSchema = new mongoose.Schema(
     primaryImage: { 
       type: String, 
       required: true 
-    },
-    secondaryImage1: { 
-      type: String 
-    },
-    secondaryImage2: { 
-      type: String 
-    },
-    
+    },    
     weight:{
       type:Number,
       required: true 

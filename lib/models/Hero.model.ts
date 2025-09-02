@@ -7,7 +7,7 @@ const productSchema = new mongoose.Schema(
       required: true,
       unique: true 
     },
-    poster_url: { 
+    url: { 
       type: String, 
       required: true, 
     }
