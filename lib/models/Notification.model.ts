@@ -6,7 +6,11 @@ const AppNotificationSchema = new Schema({
         required: true,
         unique: true,
         index: true,
-      }})
+      },
+    lastUpdated:{
+      type: Date,
+      default: Date.now,
+    }})
 
 const AppNotification = models?.AppNotification || model("AppNotification", AppNotificationSchema);
 

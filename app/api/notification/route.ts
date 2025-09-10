@@ -3,7 +3,7 @@ import AppNotification from "@/lib/models/Notification.model";
 import { dbConnect } from "@/lib/mongodb";
 import { INotificationDevice, ApiResponse } from '@/types/notification';
 
-interface Notification {
+interface DeviceRegistrationRequest {
   token: string;
 }
 
@@ -13,36 +13,53 @@ export async function POST(
   try {
     await dbConnect();
 
-    const body = await req.json() as Notification;
-    const { token} = body;
+    const body = await req.json() as DeviceRegistrationRequest;
+    const { token } = body;
 
-    if (!token) {
+    // Validate token
+    if (!token || typeof token !== 'string' || token.trim().length === 0) {
       return NextResponse.json(
         { 
           success: false, 
-          message: 'Token is required' 
+          message: 'Valid token is required' 
         },
         { status: 400 }
       );
     }
 
-    // Update or create device token with new fields
+    // Update or create device token
     const device = await AppNotification.findOneAndUpdate(
-      { token },
-        { token },
+      { token: token.trim() },
+      { 
+        token: token.trim(),
+        lastUpdated: new Date(), // Optional: track when token was last updated
+      },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );
 
     return NextResponse.json({
       success: true,
-      device: device.toObject()
+      device: device.toObject(),
+      message: 'Device registered successfully'
     });
   } catch (error) {
     console.error('Error registering device:', error);
+    
+    // More specific error handling
+    if (error instanceof SyntaxError) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: 'Invalid JSON in request body' 
+        },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       { 
         success: false, 
-        message: 'Error registering device' 
+        message: 'Internal server error while registering device' 
       },
       { status: 500 }
     );
