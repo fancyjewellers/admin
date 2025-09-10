@@ -18,7 +18,7 @@ const productSchema = new mongoose.Schema(
       min: 0 
     },
     primaryImage: { 
-      type: String, 
+      type: [String], 
       required: true 
     },    
     weight:{
