@@ -1,7 +1,6 @@
 
-"use client"
-import React, { useEffect, useState } from 'react'
-import { getRate, updateX } from '@/lib/actions/actions';
+"use client";
+import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,7 @@ import { AlertCircle, RefreshCw } from 'lucide-react';
 const RateUpdate = () => {
   const [prevx, setPrevX] = useState<number>(0);
   const [newx, setNewX] = useState<string>('');
-  const [id, setId] = useState<string>("");
+  const [id, setId] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [updateSuccess, setUpdateSuccess] = useState<boolean>(false);
@@ -19,20 +18,24 @@ const RateUpdate = () => {
     const fetchInitialRate = async () => {
       try {
         setIsLoading(true);
-        const xvalue = await getRate();
-        if (xvalue && xvalue.length > 0) {
-          setPrevX(xvalue[0].x);
-          setId(String(xvalue[0]._id));
+        const res = await fetch('/api/rate');
+        if (!res.ok) {
+          throw new Error('Failed to load rate');
+        }
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          setPrevX(Number(data[0].x));
+          setId(String(data[0]._id));
         } else {
           setError('No rate data found');
         }
-      } catch (err) {
+      } catch (err: unknown) {
+        console.error(err);
         setError('Failed to fetch current rate');
-        console.log(err)
       } finally {
         setIsLoading(false);
       }
-    }
+    };
     fetchInitialRate();
   }, []);
 
@@ -45,21 +48,27 @@ const RateUpdate = () => {
     try {
       setIsLoading(true);
       const numericNewX = Number(newx);
-      const result = await updateX(id, numericNewX);
-      
-      if (result) {
-        setPrevX(numericNewX);
-        setNewX('');
-        setUpdateSuccess(true);
-        setTimeout(() => setUpdateSuccess(false), 3000);
+      const res = await fetch('/api/rate', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, x: numericNewX }),
+      });
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error || 'Update failed');
       }
-    } catch (err) {
-      setError('Failed to update rate');
-      console.log(err)
+      setPrevX(numericNewX);
+      setNewX('');
+      setUpdateSuccess(true);
+      setTimeout(() => setUpdateSuccess(false), 3000);
+    } catch (err: unknown) {
+      console.error(err);
+      const msg = err instanceof Error ? err.message : 'Failed to update rate';
+      setError(msg);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <Card className="w-full max-w-md mx-auto mt-8 shadow-lg">
@@ -122,7 +131,7 @@ const RateUpdate = () => {
         </div>
       </CardContent>
     </Card>
-  )
-}
+  );
+};
 
-export default RateUpdate
+export default RateUpdate;
