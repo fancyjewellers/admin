@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Package, Trash2 } from 'lucide-react';
+import StopperManager from '@/components/StopperManager';
 
 
 export default async function AdminPage() {
@@ -24,7 +25,7 @@ export default async function AdminPage() {
       </div>
 
       <Tabs defaultValue="products" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 lg:w-[400px]">
+        <TabsList className="grid w-full grid-cols-3 lg:w-[600px]">
           <TabsTrigger value="products" className="flex items-center gap-2">
             <Package className="w-4 h-4" />
             Product List
@@ -32,6 +33,10 @@ export default async function AdminPage() {
           <TabsTrigger value="add" className="flex items-center gap-2">
             <Plus className="w-4 h-4" />
             Add Product
+          </TabsTrigger>
+          <TabsTrigger value="stopper" className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Stopper
           </TabsTrigger>
         </TabsList>
 
@@ -122,6 +127,16 @@ export default async function AdminPage() {
                   ))}
                 </div>
               )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="stopper">
+          <Card>
+            <CardHeader>
+              <CardTitle>Stopper Controls</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <StopperManager />
             </CardContent>
           </Card>
         </TabsContent>

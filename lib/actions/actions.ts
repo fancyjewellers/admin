@@ -8,6 +8,10 @@ import { Rate as RateModel } from '../models/Rate.model';
 
 
 export async function addProduct(formData: FormData) {
+    if (!process.env.MONGODB_URI) {
+      console.warn('Skipping addProduct because MONGODB_URI is not set');
+      return;
+    }
     await dbConnect();
   
     const title = formData.get('title') as string;
@@ -48,6 +52,10 @@ export async function addProduct(formData: FormData) {
   }
   
   export async function updateProduct(id: string, formData: FormData) {
+    if (!process.env.MONGODB_URI) {
+      console.warn('Skipping updateProduct because MONGODB_URI is not set');
+      return;
+    }
     await dbConnect();
   
     const title = formData.get('title') as string;
@@ -79,12 +87,20 @@ export async function addProduct(formData: FormData) {
   }
   
   export async function deleteProduct(id: string) {
+    if (!process.env.MONGODB_URI) {
+      console.warn('Skipping deleteProduct because MONGODB_URI is not set');
+      return;
+    }
     await dbConnect();
     await Product.findByIdAndDelete(id);
     revalidatePath('/admin');
   }
   
   export async function getProducts() {
+    if (!process.env.MONGODB_URI) {
+      console.warn('MONGODB_URI not set - getProducts returning empty array');
+      return [];
+    }
     await dbConnect();
     try {
       const products = await Product.find({}).lean();
@@ -98,11 +114,13 @@ export async function addProduct(formData: FormData) {
 
   export async function getRate() {
     try {
+      if (!process.env.MONGODB_URI) {
+        console.warn('MONGODB_URI not set - getRate returning empty array');
+        return [];
+      }
       await dbConnect();
-      
       const rates = await RateModel.find().lean();
       return rates;
-      
     } catch (error) {
       console.error('API Error:', error);
       return [];
@@ -111,6 +129,10 @@ export async function addProduct(formData: FormData) {
   
   export async function updateX(_id: string, x: number) {
     try {
+      if (!process.env.MONGODB_URI) {
+        console.warn('Skipping updateX because MONGODB_URI is not set');
+        return { _id: '', x };
+      }
       await dbConnect();
   
       const updatedUser = await RateModel.findOneAndUpdate(
