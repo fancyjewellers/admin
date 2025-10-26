@@ -1,18 +1,19 @@
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema(
+const heroSchema = new mongoose.Schema(
   {
-    poster_no: { 
-      type: Number, 
+    poster_no: {
+      type: Number,
       required: true,
-      unique: true 
+      unique: true,
     },
-    url: { 
-      type: String, 
-      required: true, 
-    }
+    url: {
+      type: String,
+      required: true,
+    },
   },
-  
+  { timestamps: true }
 );
 
-export const Hero = mongoose.models.Hero || mongoose.model('Hero', productSchema);
+export const Hero = mongoose.models.Hero || mongoose.model('Hero', heroSchema);
+export default Hero;

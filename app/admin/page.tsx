@@ -7,7 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, Package, Trash2 } from 'lucide-react';
+import Image from 'next/image';
 import StopperManager from '@/components/StopperManager';
+import RateUpdate from '@/app/components/RateUpdate';
+import QualityManager from '@/components/QualityManager';
+import HeroPosterManager from '@/components/HeroPosterManager';
+import NotificationManager from '@/components/NotificationManager';
 
 
 export default async function AdminPage() {
@@ -25,7 +30,7 @@ export default async function AdminPage() {
       </div>
 
       <Tabs defaultValue="products" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 lg:w-[600px]">
+  <TabsList className="grid w-full grid-cols-3 lg:w-[900px]">
           <TabsTrigger value="products" className="flex items-center gap-2">
             <Package className="w-4 h-4" />
             Product List
@@ -37,6 +42,22 @@ export default async function AdminPage() {
           <TabsTrigger value="stopper" className="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
             Stopper
+          </TabsTrigger>
+          <TabsTrigger value="rate" className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Rate
+          </TabsTrigger>
+          <TabsTrigger value="quality" className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12h18" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Quality
+          </TabsTrigger>
+          <TabsTrigger value="hero" className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16v12H4z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Hero Posters
+          </TabsTrigger>
+          <TabsTrigger value="notifications" className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22c1.1 0 2-.9 2-2H10c0 1.1.9 2 2 2z" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            Notifications
           </TabsTrigger>
         </TabsList>
 
@@ -60,12 +81,15 @@ export default async function AdminPage() {
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                   {products.map((product: Product) => (
                     <Card key={product._id} className="overflow-hidden">
-                      <div className="aspect-video w-full overflow-hidden">
-                        <img
-                          src={product.primaryImage}
-                          alt={product.title}
-                          className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                        />
+                      <div className="aspect-video w-full overflow-hidden relative">
+                        {product.primaryImage ? (
+                          <Image
+                            src={product.primaryImage}
+                            alt={product.title}
+                            fill
+                            className="object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : null}
                       </div>
                       <CardContent className="p-4">
                         <div className="space-y-2">
@@ -85,16 +109,20 @@ export default async function AdminPage() {
                           
                           <div className="flex gap-2">
                             {product.secondaryImage1 && (
-                              <img
+                              <Image
                                 src={product.secondaryImage1}
                                 alt="Secondary 1"
+                                width={48}
+                                height={48}
                                 className="w-12 h-12 rounded object-cover"
                               />
                             )}
                             {product.secondaryImage2 && (
-                              <img
+                              <Image
                                 src={product.secondaryImage2}
                                 alt="Secondary 2"
+                                width={48}
+                                height={48}
                                 className="w-12 h-12 rounded object-cover"
                               />
                             )}
@@ -137,6 +165,46 @@ export default async function AdminPage() {
             </CardHeader>
             <CardContent>
               <StopperManager />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="rate">
+          <Card>
+            <CardHeader>
+              <CardTitle>Rate Controls</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <RateUpdate />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="quality">
+          <Card>
+            <CardHeader>
+              <CardTitle>Qualities</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <QualityManager />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="hero">
+          <Card>
+            <CardHeader>
+              <CardTitle>Hero Posters</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <HeroPosterManager />
+            </CardContent>
+          </Card>
+        </TabsContent>
+        <TabsContent value="notifications">
+          <Card>
+            <CardHeader>
+              <CardTitle>Notifications</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <NotificationManager />
             </CardContent>
           </Card>
         </TabsContent>

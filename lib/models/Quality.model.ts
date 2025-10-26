@@ -1,18 +1,19 @@
 import mongoose from 'mongoose';
 
-const productSchema = new mongoose.Schema(
+const qualitySchema = new mongoose.Schema(
   {
-    quality: { 
-      type: String, 
-      required: true, 
-        unique: true
+    quality: {
+      type: String,
+      required: true,
+      unique: true,
     },
-    price: { 
-      type: Number, 
-      required: true, 
+    price: {
+      type: Number,
+      required: true,
     },
   },
-  
+  { timestamps: true }
 );
 
-export const Quality = mongoose.models.Quality || mongoose.model('Quality', productSchema);
+export const Quality = mongoose.models.Quality || mongoose.model('Quality', qualitySchema);
+export default Quality;

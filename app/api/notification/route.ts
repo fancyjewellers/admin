@@ -65,3 +65,28 @@ export async function POST(
     );
   }
 }
+
+export async function GET() {
+  try {
+    await dbConnect();
+    const devices = await AppNotification.find().lean();
+    return NextResponse.json({ success: true, devices });
+  } catch (error) {
+    console.error('Error fetching devices:', error);
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    await dbConnect();
+    const body = await request.json();
+    const { id } = body;
+    if (!id) return NextResponse.json({ success: false, message: 'id required' }, { status: 400 });
+    await AppNotification.findByIdAndDelete(id);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error deleting device:', error);
+    return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 });
+  }
+}
