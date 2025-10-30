@@ -32,6 +32,27 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PUT(request: Request) {
+  try {
+    await dbConnect();
+    const body = await request.json();
+    const { id, url } = body;
+    if (!id || !url) {
+      return Response.json({ error: 'id and url are required' }, { status: 400 });
+    }
+    const updated = await Hero.findByIdAndUpdate(
+      id,
+      { url },
+      { new: true }
+    );
+    if (!updated) return Response.json({ error: 'Not found' }, { status: 404 });
+    return Response.json(updated);
+  } catch (error) {
+    console.error('API Error:', error);
+    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     await dbConnect();

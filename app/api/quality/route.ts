@@ -38,6 +38,30 @@ export async function POST(request: Request) {
   }
 }
 
+export async function PUT(request: Request) {
+  try {
+    if (!process.env.MONGODB_URI) {
+      return Response.json({ error: 'MONGODB not configured' }, { status: 500 });
+    }
+    await dbConnect();
+    const body = await request.json();
+    const { id, price } = body;
+    if (!id || price === undefined) {
+      return Response.json({ error: 'id and price required' }, { status: 400 });
+    }
+    const updated = await Quality.findByIdAndUpdate(
+      id,
+      { price: Number(price) },
+      { new: true }
+    );
+    if (!updated) return Response.json({ error: 'Not found' }, { status: 404 });
+    return Response.json(updated);
+  } catch (error) {
+    console.error('API Error:', error);
+    return Response.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     if (!process.env.MONGODB_URI) {

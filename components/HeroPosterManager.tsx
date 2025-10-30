@@ -12,6 +12,8 @@ export default function HeroPosterManager() {
   const [posterNo, setPosterNo] = useState('');
   const [url, setUrl] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editUrl, setEditUrl] = useState('');
 
   async function fetchItems() {
     setLoading(true);
@@ -39,6 +41,36 @@ export default function HeroPosterManager() {
     } catch (e: unknown) { console.error(e); setError(e instanceof Error ? e.message : String(e ?? 'Add failed')); }
   }
 
+  async function handleUpdate(id: string) {
+    setError(null);
+    if (!editUrl) return setError('Enter image URL');
+    try {
+      const res = await fetch('/api/heroposter', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, url: editUrl }),
+      });
+      if (!res.ok) throw new Error('Update failed');
+      const updated = await res.json();
+      setItems(prev => prev.map(p => p._id === updated._id ? updated : p));
+      setEditingId(null);
+      setEditUrl('');
+    } catch (e: unknown) {
+      console.error(e);
+      setError(e instanceof Error ? e.message : String(e ?? 'Update failed'));
+    }
+  }
+
+  function startEdit(item: HeroItem) {
+    setEditingId(item._id);
+    setEditUrl(item.url);
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setEditUrl('');
+  }
+
   async function handleDelete(id: string) {
     if (!confirm('Delete this poster?')) return;
     try {
@@ -61,14 +93,35 @@ export default function HeroPosterManager() {
         <div className="grid gap-2">
           {items.map(it => (
             <div key={it._id} className="flex items-center justify-between p-3 border rounded">
-              <div>
-                <div className="font-medium">Poster #{it.poster_no}</div>
-                <div className="text-sm text-gray-500 truncate">{it.url}</div>
-              </div>
-              <div className="flex items-center gap-2">
-                <a href={it.url} target="_blank" rel="noreferrer" className="text-sm text-blue-600">View</a>
-                <Button variant="destructive" onClick={() => handleDelete(it._id)}>Delete</Button>
-              </div>
+              {editingId === it._id ? (
+                <>
+                  <div className="flex items-center gap-2 flex-1">
+                    <div className="font-medium">Poster #{it.poster_no}</div>
+                    <Input 
+                      placeholder="New image URL" 
+                      value={editUrl} 
+                      onChange={(e) => setEditUrl(e.target.value)}
+                      className="flex-1"
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={() => handleUpdate(it._id)} size="sm">Save</Button>
+                    <Button onClick={cancelEdit} variant="outline" size="sm">Cancel</Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <div className="font-medium">Poster #{it.poster_no}</div>
+                    <div className="text-sm text-gray-500 truncate">{it.url}</div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <a href={it.url} target="_blank" rel="noreferrer" className="text-sm text-blue-600">View</a>
+                    <Button variant="outline" onClick={() => startEdit(it)} size="sm">Edit URL</Button>
+                    <Button variant="destructive" onClick={() => handleDelete(it._id)} size="sm">Delete</Button>
+                  </div>
+                </>
+              )}
             </div>
           ))}
         </div>
