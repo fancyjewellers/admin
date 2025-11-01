@@ -5,6 +5,8 @@ import { INotificationDevice, ApiResponse } from '@/types/notification';
 
 interface DeviceRegistrationRequest {
   token: string;
+  // optional metadata object or JSON string
+  meta?: unknown;
 }
 
 export async function POST(
@@ -13,8 +15,8 @@ export async function POST(
   try {
     await dbConnect();
 
-    const body = await req.json() as DeviceRegistrationRequest;
-    const { token } = body;
+  const body = await req.json() as DeviceRegistrationRequest;
+  const { token, meta } = body;
 
     // Validate token
     if (!token || typeof token !== 'string' || token.trim().length === 0) {
@@ -27,12 +29,23 @@ export async function POST(
       );
     }
 
+    // Normalize and parse meta: accept object or JSON string
+    let parsedMeta: unknown = null;
+    if (meta !== undefined && meta !== null) {
+      if (typeof meta === 'string') {
+        try { parsedMeta = JSON.parse(meta); } catch { parsedMeta = meta; }
+      } else {
+        parsedMeta = meta;
+      }
+    }
+
     // Update or create device token
     const device = await AppNotification.findOneAndUpdate(
       { token: token.trim() },
-      { 
+      {
         token: token.trim(),
-        lastUpdated: new Date(), // Optional: track when token was last updated
+        meta: parsedMeta,
+        lastUpdated: new Date(), // track when token was last updated
       },
       { new: true, upsert: true, setDefaultsOnInsert: true }
     );

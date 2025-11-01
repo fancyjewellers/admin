@@ -10,9 +10,11 @@ export interface NotificationPayload {
     data?: T;
     error?: string;
   }
-
-  export interface INotificationDevice extends Document {
+  export interface INotificationDevice {
+    _id?: string;
     token: string;
+    meta?: Record<string, unknown> | null;
+    lastUpdated?: string | Date;
   }
   
  
